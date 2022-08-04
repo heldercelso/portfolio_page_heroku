@@ -45,12 +45,10 @@ The implementation was carried out using Python version `3.10.6` with the follow
 ├── static                                                                # it is generated after run collectstatic django command
 ├── db.sqlite3                                                            # this db is used only for debug purpose (running locally)
 ├── manage.py
-├── migrations.txt                                                        # this file contains the commands used to fill database inside django shell (python manage.py shell)
 ├── Procfile                                                              # Heroku requirement to find wsgi (gunicorn in this case)
 ├── README.md
 ├── requirements.txt
-├── runtime.txt                                                           # Heroku requirement to set python version
-└── steps.txt                                                             # Used commands to configure Heroku server
+└── runtime.txt                                                           # Heroku requirement to set python version
 ```
 
 
@@ -69,7 +67,10 @@ $ source venv/Scripts/activate
 # Install libs inside venv
 $ pip install -r requirements.txt
 
-# Run the server:
+# Create database tables
+$ python manage.py migrate
+
+# Run the server
 $ python manage.py runserver
 ```
 
@@ -90,7 +91,7 @@ To access the application, just open the address `http://localhost:8000` in your
  * Images: It is used inside project details to show all details about the project;
  * Feature images: It is used inside project details to show specific features.
 
-2. Take pictures of the project
+2. Take pictures of the project:
 
 These pictures will be used as cover images, project images and feature images according explained and should be placed inside `media/projects/<project_name>`.
 Don't forget to rename the files accordingly:
@@ -108,8 +109,8 @@ NOTE: You can only add one user, so to add another one you need to delete the pr
 
 ## Database
 
-If `DEBUG==True` a SqLite database will be created when running the project. The migrations are already created so you need to run `python manage.py migrate` only to execute them.
-If `DEBUG==False` the Heroku-PostgreSQL database will be used.
+* If `DEBUG==True` a SqLite database will be created when running the project. The migrations are already created so you need to run `python manage.py migrate` only to execute them.
+* If `DEBUG==False` the Heroku-PostgreSQL database will be used.
 
 NOTE: if environment variable `DJANGO_DEBUG` is not created, `DEBUG` is set to `True` by default.
 
@@ -151,36 +152,38 @@ p.save()
 
 # Adding project cover images
 p.cov_images.add(*[
-    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/<project_name>/cover1.png', 'rb'), name='cover1.avif')),
-    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/<project_name>/cover2.png', 'rb'), name='cover2.avif')),
-    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/<project_name>/cover3.png', 'rb'), name='cover3.avif')),
-    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/<project_name>/cover4.png', 'rb'), name='cover4.avif')),
+    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/cover1.png', 'rb'), name='cover1.avif')),
+    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/cover2.png', 'rb'), name='cover2.avif')),
 ])
 
 # Adding project images
 p.images.add(*[
-    ProjectImage.objects.create(proj=p, image=ImageFile(open('./media/projects/<project_name>/image.png', 'rb'), name='image.avif'), text='abc'),
+    ProjectImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/image1.png', 'rb'), name='image1.avif'), text='Text for image1'),
 ])
 
 # Adding project feature images
 p.feat_images.add(*[
-    ProjectFeatureImage.objects.create(proj=p, image=ImageFile(open('./media/projects/<project_name>/feature.png', 'rb'), name='feature.avif'), title='abc', text='abc'),
+    ProjectFeatureImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/feature1.png', 'rb'), name='feature1.avif'), title='Title for feature1', text='Text for feature1'),
 ])
 ```
 
-These commands will upload and resize the images to `media/resized_images/project_images/<project_name>`. If you've already done this upload process and just want to attach the image directly, replace the part of the image with:
- * Remove it: image=ImageFile(open('./media/projects/<project_name>/feature.png', 'rb'), name='feature.avif')
- * Replace with: image='./media/resized_images/projects_images/<project_name>/feature.avif'
+These commands will upload and resize the images to `media/resized_images/project_images/ExampleParkingSoftware`. If you've already done this upload process and just want to attach the image directly, replace the part of the image with:
+ * Remove it: `image=ImageFile(open('./media/projects/ExampleParkingSoftware/feature1.png', 'rb'), name='feature1.avif')`
+ * Replace with: `image='./media/resized_images/projects_images/ExampleParkingSoftware/feature1.avif'`
 
 NOTE: In the free version of Heroku, you cannot upload images, so you need to include the already resized images in the commit.
 
 * Adding user:
+
+```shell
+from projects.models import UserData
 u = UserData(
     name='`<author_name>`',
     linkedin='`http://www.linkedin.com/in/<author_linkedin>`',
     github='`https://github.com/<author_github>`',
 )
 u.save()
+```
 
 ## Deploying to Heroku
 
