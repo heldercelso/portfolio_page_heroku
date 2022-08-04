@@ -1,0 +1,47 @@
+{% load static %}
+
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="container-fluid">
+
+        <!-- Brand -->
+        <a class="navbar-brand waves-effect" href="/">
+          <img src="{% static 'favicon.png' %}" alt="favicon" width="30" height="22">
+          <strong class="black-text pl-1">Portfolio</strong>
+        </a>
+
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Left -->
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'project_index' %}">Home</a>
+            </li>
+            
+            {% if user.linkedin %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ user.linkedin }}" role="button" target="_blank">Linkedin</a>
+              </li>
+            {% endif %}
+            {% if user.github %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ user.github }}" role="button" target="_blank">Github</a>
+              </li>
+            {% endif %}
+          </ul>
+
+          {% if user.name %}
+            <div class="navbar-text text-center" style="font-size: 12px;">
+              Project's author: <p class="mb-0 text-white">{{ user.name }}</p>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </nav>
+  </header>

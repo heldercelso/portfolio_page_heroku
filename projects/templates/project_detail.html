@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+{% csrf_token %}
+
+
+{% block page_head %}
+    <title>Details</title>
+
+    <link rel="stylesheet" href="{% static 'css/project_detail_boot.css' %}">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <style>
+      /* indicators posisiton */
+      .carousel-indicators {
+        bottom: -100px;
+        margin: 0;
+        display: unset;
+        position: unset;
+      }
+
+      /* indicator button configs */
+      .carousel-indicators input.indic {
+        background-color: black;
+        min-height: 38px;
+        min-width: 48px;
+        margin: 0;
+        padding: 0;
+        border-top: 0;
+        border-bottom: 0;
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
+
+      /* active indicator button color */
+      div.carousel-indicators input.active {
+        background-color: red;
+      }
+
+      /* prev/next button color */
+      .carousel-control-next,
+      .carousel-control-prev {
+          filter: invert(50%);
+      }
+
+      /* carousel caption edited - to use bootstrap default use carousel-caption */
+      .mycaption { margin-top:10px; font-size:18px; }
+
+      /* blue background extended below the carousel - to include captions */
+      .carousel-inner { padding-bottom:50px; }
+
+      /* keep image ratio when resize for mobile */
+      .keepratio {
+        max-width: 100%;
+        max-height: 100%;
+        height: auto;
+      }
+
+      /* zoom feature images on mouse hover */
+      .img:hover{
+        -webkit-transition: all .3s ease-in;
+        -moz-transition: all .3s ease-in;
+        -ms-transition: all .3s ease-in;
+        -o-transition: all .3s ease-in;
+        transition: all .3s ease-in;
+        opacity: 1;
+        transform: translateX(-15%) scale(1.5);
+        -ms-transform: translateX(-15%) scale(1.5); /* IE 9 */
+        -webkit-transform: translateX(-15%) scale(1.5); /* Safari and Chrome */
+      }
+
+      /* for feature text */
+      .marketing h2 {
+        font-weight: 400;
+      }
+
+      /* divider margin in features part */
+      .featurette-divider {
+        margin: 5rem 0;
+      }
+
+      /* feature text vertical align */
+      @media (min-width: 62em) {
+          .featurette-heading {
+            margin-top: 7vh;
+          }
+      }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+<div class="container-fluid p-1" style="text-align:center;">
+  <div class="text-center" style="background-color: lightblue;">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+
+      <div class="carousel-indicators">
+        {% for image in project.get_images %}
+          {% if forloop.first %}
+            <!-- src="{{ image.image.url }}" -->
+            <input type="image" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="keepratio indic active" aria-current="true" aria-label="Slide {{ forloop.counter }}"></input>
+          {% else %}
+            <input type="image" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="keepratio indic" aria-label="Slide {{ forloop.counter }}"></input>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+
+      <div class="carousel-inner" style="text-align:center;">
+        {% for image in project.get_images %}
+          {% if forloop.first %}
+            <div class="carousel-item p-1 active">
+          {% else %}
+            <div class="carousel-item p-1">
+          {% endif %}
+              <img src="{% static image.image %}" alt="image" class="keepratio border border-3 border-dark rounded-2" width="1280" height="720">
+              <div class="mycaption">
+                <p class="text-dark" style="position: absolute; width: 100%; line-height: 20px;">
+                {{ image.text }}</p>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
+
+    </div>
+  </div>
+
+  <h3 style="text-align:center; padding-top: 120px;">{{ project.title }}</h3>
+
+  <div class="container text-center">
+    <p style="font-size: 20px;"><strong>Technologies:</strong> {{ project.technologies }}</p>
+  </div>
+
+  <div class="container marketing">
+
+    <hr class="featurette-divider mt-5">
+    <h1 class="mt-5 mb-5" style="text-align:center">Features</h1>
+
+    {% for featimage in project.get_feat_images %}
+      {% if not forloop.first %}
+        <hr class="featurette-divider mt-5">
+      {% endif %}
+
+      <div class="row featurette">
+        <div class="col-md-7">
+
+            <h2 class="featurette-heading" >{{ featimage.title }}</h2>
+            <p class="lead">{{ featimage.text }}</p>
+
+
+        </div>
+        <div class="col-md-5">
+            <img class="keepratio img border border-3 border-dark rounded-2" src="{% static featimage.image %}" alt="featimage" width="1000" height="600">
+        </div>
+      </div>
+    {% endfor %}
+
+    <hr class="featurette-divider">
+
+  </div>
+</div>
+{% endblock %}
