@@ -144,19 +144,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # SqLite just to development - Heroku is using postgresql
-DATABASES = {'default': {}}
-if DEBUG:
+DATABASES = {}
+MAX_CONN_AGE = 500
+
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    # Configure Django for DATABASE_URL environment variable.
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=MAX_CONN_AGE)
+else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3")
         }
     }
-else:
-    # Heroku: Update database configuration from $DATABASE_URL.
-    import dj_database_url
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
 
 
 #import django_heroku
