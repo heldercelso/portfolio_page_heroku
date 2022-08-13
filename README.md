@@ -152,24 +152,24 @@ p.save()
 
 # Adding project cover images
 p.cov_images.add(*[
-    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/cover1.png', 'rb'), name='cover1.avif')),
-    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/cover2.png', 'rb'), name='cover2.avif')),
+    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/cover1.png', 'rb'), name='cover1.webp')),
+    ProjectCoverImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/cover2.png', 'rb'), name='cover2.webp')),
 ])
 
 # Adding project images
 p.images.add(*[
-    ProjectImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/image1.png', 'rb'), name='image1.avif'), text='Text for image1'),
+    ProjectImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/image1.png', 'rb'), name='image1.webp'), text='Text for image1'),
 ])
 
 # Adding project feature images
 p.feat_images.add(*[
-    ProjectFeatureImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/feature1.png', 'rb'), name='feature1.avif'), title='Title for feature1', text='Text for feature1'),
+    ProjectFeatureImage.objects.create(proj=p, image=ImageFile(open('./media/projects/ExampleParkingSoftware/feature1.png', 'rb'), name='feature1.webp'), title='Title for feature1', text='Text for feature1'),
 ])
 ```
 
 These commands will upload and resize the images to `media/resized_images/project_images/ExampleParkingSoftware`. If you've already done this upload process and just want to attach the image directly, replace the part of the image with:
- * Remove it: `image=ImageFile(open('./media/projects/ExampleParkingSoftware/feature1.png', 'rb'), name='feature1.avif')`
- * Replace with: `image='./media/resized_images/projects_images/ExampleParkingSoftware/feature1.avif'`
+ * Remove it: `image=ImageFile(open('./media/projects/ExampleParkingSoftware/feature1.png', 'rb'), name='feature1.webp')`
+ * Replace with: `image='./media/resized_images/projects_images/ExampleParkingSoftware/feature1.webp'`
 
 NOTE: In the free version of Heroku, you cannot upload images, so you need to include the already resized images in the commit.
 

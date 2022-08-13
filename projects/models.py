@@ -23,6 +23,8 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     technologies = models.TextField(blank=True, null=True)
+    code = models.URLField(blank=True, null=True)
+    page = models.URLField(blank=True, null=True)
 
     images = models.ManyToManyField('ProjectImage', blank=True)
     cov_images = models.ManyToManyField('ProjectCoverImage', blank=True)
@@ -106,7 +108,7 @@ class ProjectImage(models.Model):
         # (width, height) = image.size
         size = (1280, 720)
         image = image.resize(size, Image.ANTIALIAS)
-        image.save(self.image.path.split('.')[0]+ '.avif', 'AVIF')
+        image.save(self.image.path.split('.')[0]+ '.webp', 'WEBP')
 
 
 
@@ -129,7 +131,7 @@ class ProjectCoverImage(models.Model):
         # (width, height) = image.size
         size = (1000, 600)
         image = image.resize(size, Image.ANTIALIAS)
-        image.save(self.image.path.split('.')[0]+ '.avif', 'AVIF')
+        image.save(self.image.path.split('.')[0]+ '.webp', 'WEBP')
 
 
 class ProjectFeatureImage(models.Model):
@@ -153,4 +155,4 @@ class ProjectFeatureImage(models.Model):
         # (width, height) = image.size
         size = (1000, 600)
         image = image.resize(size, Image.ANTIALIAS)
-        image.save(self.image.path.split('.')[0]+ '.avif', 'AVIF')
+        image.save(self.image.path.split('.')[0]+ '.webp', 'WEBP')

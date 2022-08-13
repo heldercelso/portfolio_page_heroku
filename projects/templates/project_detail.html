@@ -139,32 +139,39 @@
     <p style="font-size: 20px;"><strong>Technologies:</strong> {{ project.technologies }}</p>
   </div>
 
-  <div class="container marketing">
 
-    <hr class="featurette-divider mt-5">
-    <h1 class="mt-5 mb-5" style="text-align:center">Features</h1>
+  {% if project.feat_images.count > 0 %}
+    <div class="container marketing">
 
-    {% for featimage in project.get_feat_images %}
-      {% if not forloop.first %}
-        <hr class="featurette-divider mt-5">
-      {% endif %}
+      <hr class="featurette-divider mt-5">
 
-      <div class="row featurette">
-        <div class="col-md-7">
+      <h1 class="mt-5 mb-5" style="text-align:center">Features</h1>
 
-            <h2 class="featurette-heading" >{{ featimage.title }}</h2>
-            <p class="lead">{{ featimage.text }}</p>
+      {% for featimage in project.get_feat_images %}
+        {% if not forloop.first %}
+          <hr class="featurette-divider mt-5">
+        {% endif %}
 
+        <div class="row featurette">
+          <div class="col-md-7">
 
+              {% if featimage.title %}
+                <h2 class="featurette-heading">{{ featimage.title }}</h2>
+              {% else %}
+                <h2 class="featurette-heading" style="visibility: hidden;">No Title</h2>
+              {% endif %}
+              <p class="lead">{{ featimage.text }}</p>
+
+          </div>
+          <div class="col-md-5">
+              <img class="keepratio img border border-3 border-dark rounded-2" src="{% static featimage.image %}" alt="featimage" width="1000" height="600">
+          </div>
         </div>
-        <div class="col-md-5">
-            <img class="keepratio img border border-3 border-dark rounded-2" src="{% static featimage.image %}" alt="featimage" width="1000" height="600">
-        </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
 
-    <hr class="featurette-divider">
+      <hr class="featurette-divider">
 
-  </div>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}
