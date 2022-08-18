@@ -2,6 +2,7 @@
 
 Portfolio page for developers to showcase their projects. It was mainly implemented in Django (Python) adapted to run on the free version of Heroku.
 
+Project images: https://helder-portfolio.herokuapp.com/portfolio-page-5/
 
 ## Technologies
 
