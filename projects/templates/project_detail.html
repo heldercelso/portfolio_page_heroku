@@ -136,7 +136,15 @@
   <h3 style="text-align:center; padding-top: 120px;">{{ project.title }}</h3>
 
   <div class="container text-center">
-    <p style="font-size: 20px;"><strong>Technologies:</strong> {{ project.technologies }}</p>
+    {% if project.technologies %}
+      <p style="font-size: 20px;"><strong>Technologies:</strong> {{ project.technologies }}</p>
+    {% endif %}
+    {% if project.code %}
+      <p style="font-size: 20px;"><strong>Github:</strong> <a href="{{ project.code }}" target="_blank">{{ project.code }}</a></p>
+    {% endif %}
+    {% if project.page %}
+      <p style="font-size: 20px;"><strong>Page:</strong> <a href="{{ project.page }}" target="_blank">{{ project.page }}</a></p>
+    {% endif %}
   </div>
 
 
